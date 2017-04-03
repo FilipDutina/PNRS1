@@ -1,0 +1,21 @@
+package com.example.student.vezbetreci;
+
+
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+
+public class MainActivity extends AppCompatActivity {
+
+    Nova crtaj;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        crtaj = new Nova(this);
+        crtaj.setBackgroundColor(Color.WHITE);
+        setContentView(crtaj);
+    }
+}
