@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.MotionEvent;
 import android.view.View;
 
 /**
@@ -34,5 +35,13 @@ public class Nova extends View {
         canvas.drawRect(670, 970, 750, 1080, crvena);   //vrata
         //canvas.drawRect(700, 1000, 720, 1020, crvena);   //prozor zavrsi
     }
+
+    /*public boolean onTouchEvent(MotionEvent e)
+    {
+        int x = (int) e.getX();
+        int y = (int) e.getY();
+
+        if()
+    }*/
 
 }

@@ -13,11 +13,11 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="435dp"
+        android:layout_height="wrap_content"
         android:fillViewport="false"
+        android:id="@+id/scrollView2"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/scrollView2">
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
 
             <TimePicker
                 android:id="@+id/timePicker"
-                android:layout_width="400dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
@@ -45,7 +45,7 @@
 
             <DatePicker
                 android:id="@+id/datePicker"
-                android:layout_width="400dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/checkBox"
                 android:layout_alignParentEnd="true" />
@@ -61,58 +61,67 @@
                 android:hint="Opis zadatka:"
                 android:text="" />
 
-        </LinearLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="140dp"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/checkBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Podseti me 15 minuta pre isteka"
+                    android:layout_above="@+id/button3"
+                    android:layout_alignParentStart="true" />
+
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_width="115dp"
+                    android:background="@color/greenColor"
+                    android:layout_height="wrap_content"
+                    android:text=" "
+                    android:layout_above="@+id/button7"
+                    android:layout_alignParentEnd="true" />
+
+                <Button
+                    android:id="@+id/button6"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="Dodaj"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true" />
+
+                <Button
+                    android:id="@+id/button7"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="Otkaži"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toEndOf="@+id/button6" />
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="115dp"
+                    android:background="@color/redColor"
+                    android:layout_height="wrap_content"
+                    android:text=" "
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true" />
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="115dp"
+                    android:background="@color/yellowColor"
+                    android:layout_height="wrap_content"
+                    android:text=" "
+                    android:layout_alignBaseline="@+id/button4"
+                    android:layout_alignBottom="@+id/button4"
+                    android:layout_centerHorizontal="true" />
+
+
+            </RelativeLayout>
+        </LinearLayout>>
     </ScrollView>
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Podseti me 15 minuta pre isteka"
-        android:layout_above="@+id/button3"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="115dp"
-        android:background="@color/yellowColor"
-        android:layout_height="wrap_content"
-        android:text=" "
-        android:layout_above="@+id/button6"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="115dp"
-        android:background="@color/redColor"
-        android:layout_height="wrap_content"
-        android:text=" "
-        android:layout_below="@+id/checkBox"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="115dp"
-        android:background="@color/greenColor"
-        android:layout_height="wrap_content"
-        android:text=" "
-        android:layout_above="@+id/button7"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:text="Dodaj"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:text="Otkaži"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/button6" />
 
 </RelativeLayout>
