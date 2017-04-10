@@ -17,8 +17,6 @@ import java.util.Calendar;
 
 public class Main2Activity extends AppCompatActivity {
 
-    Main2Activity t = this;  //activity object reference
-
     //buttons
     protected Button crveno;
     protected Button zuto;
@@ -103,7 +101,8 @@ public class Main2Activity extends AppCompatActivity {
                 //code here
                 Intent intent = new Intent(Main2Activity.this, MainActivity.class);
                 startActivity(intent);
-                t.finish();   //close curent activity
+
+
             }
         });
 
@@ -113,7 +112,6 @@ public class Main2Activity extends AppCompatActivity {
                 //code here
                 Intent intent = new Intent(Main2Activity.this, MainActivity.class);
                 startActivity(intent);
-                t.finish();   //close curent activity
             }
         });
 
@@ -123,20 +121,24 @@ public class Main2Activity extends AppCompatActivity {
         *
         * */
 
-
         datum.setMinDate(System.currentTimeMillis() - 1000);    //disable all past dates
 
+        /*
+        *
+        *
+        *
+        * */
 
         crveno.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //code here
-                crveno.setEnabled(false); //enable other two buttons    //TO DO!!! SET COLORS!!!
-                /*crveno.setBackgroundColor(R.color.material_grey_50);
-                zuto.setBackgroundColor(R.color.yellowColor);
-                zeleno.setBackgroundColor(R.color.greenColor);*/
+                crveno.setEnabled(false); //enable other two buttons
+                crveno.setAlpha(0.5f);   //change brightens of button
+                zuto.setAlpha(1);
+                zeleno.setAlpha(1);
                 prioritetiZadovoljeni = true;
-                if(tekstoviZadovoljeni = true)
+                if(tekstoviZadovoljeni)
                 {
                     dodaj.setEnabled(true);
                 }
@@ -150,11 +152,11 @@ public class Main2Activity extends AppCompatActivity {
             public void onClick(View v) {
                 //code here
                 zuto.setEnabled(false); //enable other two buttons
-                /*zuto.setBackgroundColor(R.color.material_grey_50);
-                crveno.setBackgroundColor(R.color.redColor);
-                zeleno.setBackgroundColor(R.color.greenColor);*/
+                zuto.setAlpha(0.5f); //change brightens of button
+                crveno.setAlpha(1);
+                zeleno.setAlpha(1);
                 prioritetiZadovoljeni = true;
-                if(tekstoviZadovoljeni = true)
+                if(tekstoviZadovoljeni)
                 {
                     dodaj.setEnabled(true);
                 }
@@ -168,11 +170,11 @@ public class Main2Activity extends AppCompatActivity {
             public void onClick(View v) {
                 //code here
                 zeleno.setEnabled(false); //enable other two buttons
-                /*zeleno.setBackgroundColor(R.color.material_grey_50);
-                crveno.setBackgroundColor(R.color.redColor);
-                zuto.setBackgroundColor(R.color.yellowColor);*/
+                zeleno.setAlpha(0.5f);   //change brightens of button
+                crveno.setAlpha(1);
+                zuto.setAlpha(1);
                 prioritetiZadovoljeni = true;
-                if(tekstoviZadovoljeni = true)
+                if(tekstoviZadovoljeni)
                 {
                     dodaj.setEnabled(true);
                 }
@@ -183,7 +185,7 @@ public class Main2Activity extends AppCompatActivity {
 
     }
 
-    private void provera()      //TO DO!!! CHECK THIS FUNCTION!!!
+    private void provera()
     {
         String s1 = imeZadatka.getText().toString();
         String s2 = opisZadatka.getText().toString();

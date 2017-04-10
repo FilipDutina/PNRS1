@@ -8,8 +8,6 @@ import android.widget.Button;
 
 public class Main3Activity extends AppCompatActivity {
 
-    Main3Activity t = this;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +21,6 @@ public class Main3Activity extends AppCompatActivity {
                 //code here
                 Intent intent = new Intent(Main3Activity.this, MainActivity.class);
                 startActivity(intent);
-                t.finish();   //close curent activity
             }
         });
     }
