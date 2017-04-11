@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.content.Context;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -22,7 +21,7 @@ public class MyAdapter extends BaseAdapter{
     public MyAdapter(Context context)
     {
         myContext = context;
-        myTaskList = new ArrayAdapter<ListElement>();
+        myTaskList = new ArrayList<ListElement>();
     }
 
     public void addTask(ListElement listElement)
@@ -53,6 +52,8 @@ public class MyAdapter extends BaseAdapter{
         {
             e.printStackTrace();
         }
+
+        return returnValue;
     }
 
     @Override

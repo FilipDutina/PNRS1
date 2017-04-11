@@ -21,8 +21,8 @@ public class Main2Activity extends AppCompatActivity {
     protected Button crveno;
     protected Button zuto;
     protected Button zeleno;
-    protected Button dodaj;
-    protected Button otkazi;
+    protected Button levo;
+    protected Button desno;
 
     //checkBox
     protected CheckBox boks;
@@ -36,6 +36,15 @@ public class Main2Activity extends AppCompatActivity {
 
     //datePicker
     protected DatePicker datum;
+
+    //strings
+    protected CharSequence uspesanTekst;
+    protected CharSequence ponistiTekst;
+    private String levoDugmeIme;
+    private String desnoDugmeIme;
+    private String zadatakImeString;
+    private String datumString;
+    private String vremeString;
 
     //flags
     protected boolean tekstoviZadovoljeni;
@@ -57,6 +66,7 @@ public class Main2Activity extends AppCompatActivity {
         @Override
         public void afterTextChanged(Editable s)
         {
+            zadatakImeString = imeZadatka.getText().toString();
             provera();
         }
     };
@@ -70,8 +80,8 @@ public class Main2Activity extends AppCompatActivity {
         crveno = (Button) findViewById(R.id.button4);
         zuto = (Button) findViewById(R.id.button3);
         zeleno = (Button) findViewById(R.id.button5);
-        dodaj = (Button) findViewById(R.id.button6);
-        otkazi = (Button) findViewById(R.id.button7);
+        levo = (Button) findViewById(R.id.button6);
+        desno = (Button) findViewById(R.id.button7);
 
         //checkBox
         boks = (CheckBox) findViewById(R.id.checkBox);
@@ -95,23 +105,32 @@ public class Main2Activity extends AppCompatActivity {
 
         provera();
 
-        dodaj.setOnClickListener(new View.OnClickListener() {
+        //button name according to action
+        levoDugmeIme = getIntent().getStringExtra("dodaj");
+        desnoDugmeIme = getIntent().getStringExtra("otkazi");
+
+        levo.setText(levoDugmeIme);
+        desno.setText(desnoDugmeIme);
+
+        levo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //code here
-                Intent intent = new Intent(Main2Activity.this, MainActivity.class);
-                startActivity(intent);
-
-
+                //Intent intent = new Intent(Main2Activity.this, MainActivity.class);
+                Intent intent = new Intent();
+                intent.putExtra("ime", zadatakImeString);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
 
-        otkazi.setOnClickListener(new View.OnClickListener() {
+        desno.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //code here
-                Intent intent = new Intent(Main2Activity.this, MainActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(Main2Activity.this, MainActivity.class);
+                //startActivity(intent);
+                finish();
             }
         });
 
@@ -140,7 +159,7 @@ public class Main2Activity extends AppCompatActivity {
                 prioritetiZadovoljeni = true;
                 if(tekstoviZadovoljeni)
                 {
-                    dodaj.setEnabled(true);
+                    levo.setEnabled(true);
                 }
                 zuto.setEnabled(true);
                 zeleno.setEnabled(true);
@@ -158,7 +177,7 @@ public class Main2Activity extends AppCompatActivity {
                 prioritetiZadovoljeni = true;
                 if(tekstoviZadovoljeni)
                 {
-                    dodaj.setEnabled(true);
+                    levo.setEnabled(true);
                 }
                 crveno.setEnabled(true);
                 zeleno.setEnabled(true);
@@ -176,7 +195,7 @@ public class Main2Activity extends AppCompatActivity {
                 prioritetiZadovoljeni = true;
                 if(tekstoviZadovoljeni)
                 {
-                    dodaj.setEnabled(true);
+                    levo.setEnabled(true);
                 }
                 crveno.setEnabled(true);
                 zuto.setEnabled(true);
@@ -195,12 +214,12 @@ public class Main2Activity extends AppCompatActivity {
             tekstoviZadovoljeni = true;
             if(prioritetiZadovoljeni)
             {
-                dodaj.setEnabled(true);
+                levo.setEnabled(true);
             }
         }
         else
         {
-            dodaj.setEnabled(false);
+            levo.setEnabled(false);
         }
     }
 }
