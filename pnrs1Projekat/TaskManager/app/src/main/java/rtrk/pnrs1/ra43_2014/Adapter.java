@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -65,8 +66,20 @@ public class MyAdapter extends BaseAdapter{
         if(myView == null)
         {
             LayoutInflater myInflater = (LayoutInflater) myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //myView = myInflater.inflate(R.layout.task_element, null);
-            //ViewHolder myHolder = new ViewHolder();
+            myView = myInflater.inflate(R.layout.list_element, null);   //my .xml file
+            ViewHolder myViewHolder = new ViewHolder();
+            myViewHolder.name = (TextView) myView.findViewById(R.id.task_name1);
+            myView.setTag(myViewHolder);
         }
+
+        ListElement myListElementEntry = (ListElement) getItem(position);
+        ViewHolder myViewHolder = (ViewHolder) myView.getTag();
+        myViewHolder.name.setText(myListElementEntry.imeZadatka);
+        return myView;
+    }
+
+    private class ViewHolder
+    {
+        public TextView name = null;
     }
 }
