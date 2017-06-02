@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Task Manager</string>
+
+    <string name="dodaj">DODAJ</string>
+    <string name="otkazi">OTKAŽI</string>
+
+    <string name="sacuvaj">SAČUVAJ</string>
+    <string name="obrisi">OBRIŠI</string>
+</resources>
