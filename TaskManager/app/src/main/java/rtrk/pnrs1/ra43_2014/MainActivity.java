@@ -2,7 +2,8 @@ package rtrk.pnrs1.ra43_2014;
 
 /*
 * Filip Dutina ra43-2014
-* 3. V 2017.
+* 4. V 2017.
+* Nedelja vece..........................
 * */
 
 /*Dodajem za IV zadatak*/
@@ -24,12 +25,24 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ServiceConnection{
+
+    //dodato za 5. zadatak
+    Intent intentZaActivity2, intentZaActivity3;
+    public static String IME_ZADATKA = "imeZadatkaText";
+    public static String OPIS_ZADATKA = "opisZadatkaText";
+    public static String BOJA = "boja";
+    public static String DATUM = "datum";
+    public static String SAT = "sat";
+    public static String CHECKBOX_ALARM = "checkBoxAlarm";
+    public static String FLAG_ZA_BTN_SACUVAJ = "checkBox";
+    public static int SACUVAJ = 5;
+    static int position;
 
     //strings
     public static String myButtonCode = "buttonCode";
@@ -56,34 +69,33 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     private ListView lista;
     public static ArrayList<ListElement> myArrayList;
 
-    //database
-    private MyDatabase myDatabaseHelper;
-
     //service stuff
     private ServiceConnection myServiceConnection;
     private NotificationAidl myNotificationAidlInterface;
     private Intent myServiceIntent;
+
+    //database
+    static TaskDataBase myTaskDataBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.i("Main1", "Usao");
-
         noviZadatak = (Button) findViewById(R.id.button);
         statistika = (Button) findViewById(R.id.button2);
         lista = (ListView) findViewById(R.id.lista);
         myAdapter = new MyAdapter(MainActivity.this);
 
-        myDatabaseHelper = new MyDatabase(this);
 
         myServiceConnection = this;
         myServiceIntent = new Intent(this, ServiceNotifier.class);
         bindService(myServiceIntent, myServiceConnection, BIND_AUTO_CREATE);
         myArrayList = myAdapter.getTaskList();
 
-        Log.i("Main1", "Pre definisanja buttona");
+        myTaskDataBase = new TaskDataBase(this);
+        intentZaActivity2 = new Intent(MainActivity.this, Main2Activity.class);
+        intentZaActivity3 = new Intent(MainActivity.this, Main3Activity.class);
 
         noviZadatak.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,11 +113,12 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
             public void onClick(View v) {
                 //code here
                 Intent intent = new Intent(MainActivity.this, Main3Activity.class);
-                startActivity(intent);
+                if(izracunajStatistiku(intent))
+                    startActivity(intent);
+
+                //break;
             }
         });
-
-        Log.i("Main1", "Pre definisanja liste");
 
         lista.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -113,6 +126,15 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                 Intent intent = new Intent(MainActivity.this, Main2Activity.class);
                 intent.putExtra("levo", getText(R.string.sacuvaj));
                 intent.putExtra("desno", getText(R.string.obrisi));
+
+                //ListElement task = myTaskDataBase.readTask(String.valueOf(position));
+                /*intent.putExtra(DATUM, task.getDatum());
+                intent.putExtra(SAT, task.getVreme());
+                intent.putExtra(IME_ZADATKA, task.getImeZadatka());
+                intent.putExtra(OPIS_ZADATKA, task.getOpis());
+                intent.putExtra(BOJA, task.getPrioritet());
+                intent.putExtra(CHECKBOX_ALARM, task.getPodsetnik());*/
+
                 myPosition = position;
                 intent.putExtra(myTaskPosition, position);
                 startActivityForResult(intent, EDIT_TASK);
@@ -120,92 +142,48 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                 return true;
             }
         });
-    lista.setAdapter(myAdapter);
+        lista.setAdapter(myAdapter);
 
-        Log.i("Main1", "Izasao");
-
+        //ServiceConnection mServiceConnection = this;
+        //Intent serviceIntent = new Intent(this, ServiceNotifier.class);
+        //bindService(serviceIntent, mServiceConnection, BIND_AUTO_CREATE);
     }
 
-
-
     @Override
-    protected void onResume()
-    {
-        Log.i("Main1", "onResume");
+    protected void onResume() {
         super.onResume();
 
-        ListElement[] myListElement = myDatabaseHelper.readTasks();
-        myAdapter.update(myListElement);
+        ListElement[] tasks = myTaskDataBase.readTasks();
+        myAdapter.update(tasks);
     }
 
     @Override
-    protected void onDestroy()
-    {
-        Log.i("Main1", "onDestroy");
+    protected void onDestroy() {
         super.onDestroy();
-        if(myNotificationAidlInterface != null)
-        {
+
+        if(myNotificationAidlInterface != null) {
             unbindService(this);
         }
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i("Main1", "onActivityResult");
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ADD_TASK && resultCode == RESULT_OK)
         {
             if(data.getStringExtra(myButtonCode).equals(myLeftCode))
             {
-                /*
-                * "checked" sam izmenio da bude integer a bio je boolean
-                * pronaci to i videti sta je problem; da li je u ListElementu, Adapteru ili na nekom trecem mestu...................
-                * */
-
-                //konstruktor za ListElement
-
-                /*
-                * public ListElement(String imeZadatka1, int prioritet1, String vreme1, String datum1 , int podsetnik1, String opisZadatka1)
-                {
-                    imeZadatka = imeZadatka1;   //ime zadatka
-                    prioritet = prioritet1; //prioritet(crveno, zuto, zeleno)
-                    vreme = vreme1; //vreme
-                    datum = datum1; //datum
-                    podsetnik = podsetnik1; //podsetnik(checkbox)
-                    //myTaskReminder = isSet;
-                    opisZadatka = opisZadatka1; //opis zadatka
-                    myTaskDone = 0; //da li je zadatak izvrsen?
-                    myTaskID = myRandom.nextInt(2147483647 - 0);    //random generator ID-ja zadatka
-                }
-                *
-                * */
-
-                /*
-                * if(boks.isChecked())
-                    {
-                        alarmTask = 1;
-                        intent.putExtra("checked", 1);   //podsetnik je cekiran
-                        myBoxCheckded = 1;
-                    }
-                    intent.putExtra("ime", zadatakImeString);
-                    intent.putExtra("vreme", vremeString);
-                    intent.putExtra("datum", datumString);
-                    intent.putExtra("prioritet", priority);
-                    intent.putExtra("alarmImage", alarmTask);
-                    intent.putExtra("opis", opisZadatkaString);
-                * */
-
-                ListElement myListElement = new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0), data.getIntExtra("checked", 0), data.getExtras().getString("opis"));
-                myDatabaseHelper.insert(myListElement);
-                ListElement[] tasks = myDatabaseHelper.readTasks();
+                //myAdapter.addTask(new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0), data.getExtras().getBoolean("checked")));
+                ListElement myListElement = new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0), data.getExtras().getBoolean("checked"), data.getStringExtra("opis"), data.getIntExtra("ID", 0));
+                myTaskDataBase.insert(myListElement);
+                ListElement[] tasks = myTaskDataBase.readTasks();
                 myAdapter.update(tasks);
-                myAdapter.notifyDataSetChanged();
-
                 /*if(data.getExtras().getBoolean("checked"))
                 {
                     Log.i("taskReminderSet", "true");
-                }
-                myAdapter.notifyDataSetChanged();*/
+                }*/
+                //myAdapter.notifyDataSetChanged();
                 try
                 {
                     myNotificationAidlInterface.notificationAdd();
@@ -222,22 +200,10 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         {
             if(data.getStringExtra(myButtonCode).equals(myLeftCode))
             {
-                /*
-                *  public ListElement(String imeZadatka1, int prioritet1, String vreme1, String datum1 , int podsetnik1, int isSet, String opisZadatka1)
-                    {
-                        imeZadatka = imeZadatka1;
-                        prioritet = prioritet1;
-                        vreme = vreme1;
-                        datum = datum1;
-                        podsetnik = podsetnik1;
-                        myTaskReminder = isSet;
-                        opisZadatka = opisZadatka1;
-                        myTaskDone = 0;
-                        myTaskID = myRandom.nextInt(2147483647 - 0);
-                    }
-                * */
-
-                ListElement myListElement = new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0), data.getIntExtra("checked", 0), data.getExtras().getString("opis"));
+                ListElement myListElement = new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0), data.getExtras().getBoolean("checked"), data.getStringExtra("opis"), data.getIntExtra("ID", 0));
+                myTaskDataBase.insert(myListElement);
+                ListElement[] tasks = myTaskDataBase.readTasks();
+                myAdapter.update(tasks);
                 myAdapter.editTask(data.getIntExtra(myTaskPosition, 0), myListElement);
                 try
                 {
@@ -250,6 +216,14 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
             }
             else if(data.getStringExtra(myButtonCode).equals(myRightCode))
             {
+                myTaskDataBase.deleteTask(String.valueOf(myPosition));
+
+                if(myAdapter.getCount() > 1)
+                    izmeniID(myPosition);
+
+                ListElement[] tasks = myTaskDataBase.readTasks();
+                myAdapter.update(tasks);
+
                 myAdapter.removeTask(data.getIntExtra(myTaskPosition, 0));
                 try
                 {
@@ -261,6 +235,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                 }
             }
             //myAdapter.removeTask(myPosition);
+
         }
     }
 
@@ -274,6 +249,69 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     public void onServiceDisconnected(ComponentName name)
     {
 
+
+    }
+
+    void izmeniID (int position)
+    {
+        ListElement[] tasks = myTaskDataBase.readTasks();
+        for (ListElement task : tasks) {
+            if (task.getID() > position)
+            {
+                task.setID(task.getID() - 1);
+                myTaskDataBase.updateTask(task, String.valueOf(task.getID() + 1));
+            }
+        }
+
+    }
+
+    public boolean izracunajStatistiku(Intent intent)
+    {
+        //
+        //
+        // Intent intent3 = new Intent(MainActivity.this, Main3Activity.class);
+
+        int redBr = 0;
+        int yellowBr = 0;
+        int greenBr = 0;
+        int redBrChecked = 0;
+        int yellowBrChecked = 0;
+        int greenBrChecked = 0;
+        int suma;
+
+        ListElement[] tasks = myTaskDataBase.readTasks();
+        if(myAdapter.getCount() == 0)
+        {
+            //Toast.makeText(getApplicationContext(), "Nema zadataka!",
+                    //Toast.LENGTH_LONG).show();
+            return false;
+        }
+        for(ListElement task : tasks)
+        {
+            if(task.getPrioritet() == 2)//zeleni
+                yellowBr++;
+            else if(task.getPrioritet() == 1)//crveni
+                greenBr++;
+            else//zuti
+                redBr++;
+        }
+        suma = redBr + yellowBr + greenBr;
+        if(suma == 0)
+            return false;
+
+        if(redBr != 0)
+            redBrChecked = (100 * redBr) / suma;
+        if(yellowBr != 0)
+            yellowBrChecked = (100 * yellowBr) / suma;
+        if(greenBr != 0)
+            greenBrChecked = (100 * greenBr) / suma;
+
+
+        intent.putExtra("redPostotak", redBrChecked);
+        intent.putExtra("greenPostotak", greenBrChecked);
+        intent.putExtra("yellowPostotak", yellowBrChecked);
+
+        return true;
 
     }
 }

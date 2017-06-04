@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,22 +14,29 @@ public class Main3Activity extends AppCompatActivity {
     protected PieChart srednjiPrioritet;
     protected PieChart nizakPrioritet;
 
+    protected int crveno;
+    protected int zuto;
+    protected int zeleno;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
 
-        Log.i("Usao", "Main3");
 
         nazad = (Button) findViewById(R.id.button8);
+
+        crveno = getIntent().getExtras().getInt("redPostotak");
+        zuto = getIntent().getExtras().getInt("yellowPostotak");
+        zeleno = getIntent().getExtras().getInt("greenPostotak");
 
         visokPrioritet = (PieChart) findViewById(R.id.visokaPita);
         srednjiPrioritet = (PieChart) findViewById(R.id.srednjaPita);
         nizakPrioritet = (PieChart) findViewById(R.id.niskaPita);
 
-        visokPrioritet.setMyPercentageTarget(76.f);
-        srednjiPrioritet.setMyPercentageTarget(49.f);
-        nizakPrioritet.setMyPercentageTarget(94.f);
+        visokPrioritet.setMyPercentageTarget(crveno);
+        srednjiPrioritet.setMyPercentageTarget(zuto);
+        nizakPrioritet.setMyPercentageTarget(zeleno);
 
         srednjiPrioritet.getPaint().setColor(getResources().getColor(R.color.yellowColor));
         nizakPrioritet.getPaint().setColor(getResources().getColor(R.color.greenColor));

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="rtrk.pnrs1.ra43_2014.Main2Activity">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="false"
+        android:id="@+id/scrollView2"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editText"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/button4"
+                android:layout_toStartOf="@+id/button5"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="Ime zadatka:"
+                android:text="" />
+
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:layout_marginBottom="11dp"
+                android:layout_alignTop="@+id/datePicker"
+                android:layout_alignParentEnd="true"/>
+
+            <DatePicker
+                android:id="@+id/datePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/checkBox"
+                android:layout_alignParentEnd="true" />
+
+            <EditText
+                android:id="@+id/editText2"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/button4"
+                android:layout_toStartOf="@+id/button5"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="Opis zadatka:"
+                android:text="" />
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Podseti me 15 minuta pre isteka"
+                android:layout_above="@+id/button4"
+                android:layout_alignParentStart="true" />
+
+
+
+            <LinearLayout
+                android:weightSum="3"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_centerInParent="true">
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:background="@color/redColor"
+                    android:layout_height="wrap_content"
+                    android:text=" "
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true" />
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:background="@color/yellowColor"
+                    android:layout_height="wrap_content"
+                    android:text=" "
+                    android:layout_alignBaseline="@+id/button4"
+                    android:layout_alignBottom="@+id/button4"
+                    android:layout_centerHorizontal="true" />
+
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_marginLeft="2dp"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:background="@color/greenColor"
+                    android:layout_height="wrap_content"
+                    android:text=" "
+                    android:layout_below="@+id/checkBox"
+                    android:layout_alignParentEnd="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:weightSum="2"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="17dp">
+
+                <Button
+                    android:id="@+id/button6"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dodaj"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="bottom"
+                    android:layout_alignParentStart="true" />
+
+                <Button
+                    android:id="@+id/button7"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Otkaži"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="bottom"
+                    android:layout_alignParentEnd="true" />
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

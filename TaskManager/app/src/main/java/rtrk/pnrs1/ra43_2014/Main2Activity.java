@@ -20,14 +20,12 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
+import java.util.Random;
 
 public class Main2Activity extends AppCompatActivity {
 
-    //data difference
-    protected int myDateDifference;
-    protected int myPriorityImage;
-    protected int myAlarmImage;
-    protected int myBoxCheckded;
+    //variables for dataBase
+    Boolean redFlag, yellowFlag, greenFlag, dodajBtnEnabled = false, vremeFlag = false, datumFlag = false;
 
     //buttons
     protected Button crveno;
@@ -38,6 +36,9 @@ public class Main2Activity extends AppCompatActivity {
 
     //checkBox
     protected CheckBox boks;
+
+    //random
+    protected int id;
 
     //editText
     protected EditText imeZadatka;
@@ -62,12 +63,9 @@ public class Main2Activity extends AppCompatActivity {
     private String levoDugmeIme;
     private String desnoDugmeIme;
     private String zadatakImeString;
+    private String opisZadatkaString;
     private String datumString;
     private String vremeString;
-    private String opisZadatkaString;
-
-    //database
-    private MyDatabase myDatabaseHelper;
 
     //flags
     protected boolean tekstoviZadovoljeni;
@@ -100,8 +98,6 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        Log.i("Usao", "Main2");
-
         //buttons
         crveno = (Button) findViewById(R.id.button4);
         zuto = (Button) findViewById(R.id.button3);
@@ -125,9 +121,6 @@ public class Main2Activity extends AppCompatActivity {
         //flags
         tekstoviZadovoljeni = false;
         prioritetiZadovoljeni = false;
-
-        //database
-        myDatabaseHelper = new MyDatabase(this);
 
         imeZadatka.addTextChangedListener(textWatcher);
         opisZadatka.addTextChangedListener(textWatcher);
@@ -257,6 +250,9 @@ public class Main2Activity extends AppCompatActivity {
         *
         * */
         alarmTask = 0;
+        Random rand = new Random();
+        //Random rand = new Random(); int value = rand.nextInt(50)
+        id = rand.nextInt(10000);
 
         levo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -267,8 +263,7 @@ public class Main2Activity extends AppCompatActivity {
                 if(boks.isChecked())
                 {
                     alarmTask = 1;
-                    intent.putExtra("checked", 1);   //podsetnik je cekiran
-                    myBoxCheckded = 1;
+                    intent.putExtra("checked", true);   //podsetnik je cekiran
                 }
                 intent.putExtra("ime", zadatakImeString);
                 intent.putExtra("vreme", vremeString);
@@ -276,6 +271,7 @@ public class Main2Activity extends AppCompatActivity {
                 intent.putExtra("prioritet", priority);
                 intent.putExtra("alarmImage", alarmTask);
                 intent.putExtra("opis", opisZadatkaString);
+                intent.putExtra("ID", id);
 
 
                 intent.putExtra(MainActivity.myButtonCode, MainActivity.myLeftCode);
@@ -283,12 +279,6 @@ public class Main2Activity extends AppCompatActivity {
                 {
                     intent.putExtra(MainActivity.myTaskPosition, getIntent().getIntExtra(MainActivity.myTaskPosition, 0));
                 }
-
-                /*public ListElement(String imeZadatka1, int prioritet1, String vreme1, String datum1, int podsetnik1, int myTaskReminder2, String opisZadatka1)
-    {*/
-
-                ListElement myListElement = new ListElement(zadatakImeString, priority, vremeString, datumString, alarmTask, myBoxCheckded, opisZadatkaString);
-                //myDatabaseHelper.insert(myListElement);
 
                 setResult(RESULT_OK, intent);
                 finish();
@@ -304,11 +294,6 @@ public class Main2Activity extends AppCompatActivity {
                 //startActivity(intent);
                 intent.putExtra(MainActivity.myButtonCode, MainActivity.myRightCode);
                 intent.putExtra(MainActivity.myButtonCode, MainActivity.myRightCode);
-
-                if(getIntent().getIntExtra(MainActivity.myRequestCode, 0) == MainActivity.EDIT_TASK)
-                {
-                    intent.putExtra(MainActivity.myTaskPosition, getIntent().getIntExtra(MainActivity.myTaskPosition, 0));
-                }
 
                 setResult(RESULT_OK, intent);
 
@@ -374,7 +359,32 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
 
-        Log.i("Izasao", "Main2");
+       /* if(getIntent().getExtras().getInt(MainActivity.FLAG_ZA_BTN_SACUVAJ) == 1)
+        {
+            ListElement task = MainActivity.myTaskDataBase.readTask(String.valueOf(MainActivity.myTaskPosition));
+            datumString = task.getDatum();
+            vremeString = task.getVreme();
+            zadatakImeString = task.getImeZadatka();
+            opisZadatkaString = task.getOpis();
+
+
+            imeZadatka.setText(getIntent().getExtras().getString(MainActivity.IME_ZADATKA));
+            opisZadatka.setText(getIntent().getExtras().getString(MainActivity.OPIS_ZADATKA));*/
+            //datumString.setText(getIntent().getExtras().getString(MainActivity.DATUM));
+            //vremeString.setText(getIntent().getExtras().getString(MainActivity.SAT));
+
+
+            /*if (getIntent().getExtras().getInt(MainActivity.BOJA) == R.drawable.red)
+                crveno.performClick();
+            else if (getIntent().getExtras().getInt(MainActivity.BOJA) == R.drawable.green)
+                zeleno.performClick();
+            else
+                zuto.performClick();
+
+
+            if ((getIntent().getExtras().getInt(MainActivity.CHECKBOX_ALARM) == R.drawable.yellow_bell))
+                boks.setChecked(true);
+        }*/
 
     }
 

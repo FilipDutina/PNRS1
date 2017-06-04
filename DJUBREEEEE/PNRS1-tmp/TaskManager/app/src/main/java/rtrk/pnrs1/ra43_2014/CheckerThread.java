@@ -57,7 +57,7 @@ public class CheckerThread extends Thread {
             for(ListElement myListElement : MainActivity.myArrayList)
             {
                 Log.i("For", "petlja");
-                if(myListElement.getDatum().equals("Danas") && myListElement.getMyTaskReminder() == 1)
+                if(myListElement.getDatum().equals("Danas") && myListElement.getPodsetnik() == 1)
                 {
                     Calendar myCurrentDate = Calendar.getInstance();
                     Calendar myTaskTime = Calendar.getInstance();

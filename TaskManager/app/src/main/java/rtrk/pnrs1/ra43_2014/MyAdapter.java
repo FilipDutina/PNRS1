@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,6 +35,16 @@ public class MyAdapter extends BaseAdapter{
     public void addTask(ListElement listElement)
     {
         myTaskList.add(listElement);
+        notifyDataSetChanged();
+    }
+
+    void update(ListElement[] tasks)
+    {
+        myTaskList.clear();
+        if(tasks != null)
+        {
+            Collections.addAll(myTaskList, tasks);
+        }
         notifyDataSetChanged();
     }
 
@@ -60,19 +71,6 @@ public class MyAdapter extends BaseAdapter{
         return myTaskList.size();
     }
 
-    public void update(ListElement[] tasks) //dodato za bazu podataka
-    {
-        myTaskList.clear();
-        if(tasks != null)
-        {
-            for(ListElement myListElement : tasks)
-            {
-                myTaskList.add(myListElement);
-            }
-        }
-        notifyDataSetChanged();
-    }
-
     @Override
     public Object getItem(int position) {
         Object returnValue = null;
@@ -95,34 +93,19 @@ public class MyAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        final int myPosition = position;
         View myView = convertView;
         if(myView == null)
         {
-
-            /*
-            * public ListElement(String imeZadatka1, int prioritet1, String vreme1, String datum1 , int podsetnik1, String opisZadatka1)
-            {
-                imeZadatka = imeZadatka1;   //ime zadatka
-                prioritet = prioritet1; //prioritet(crveno, zuto, zeleno)
-                vreme = vreme1; //vreme
-                datum = datum1; //datum
-                podsetnik = podsetnik1; //podsetnik(checkbox)
-                //myTaskReminder = isSet;
-                opisZadatka = opisZadatka1; //opis zadatka
-                myTaskDone = 0; //da li je zadatak izvrsen?
-                myTaskID = myRandom.nextInt(2147483647 - 0);    //random generator ID-ja zadatka
-            }
-                    * */
-
             LayoutInflater myInflater = (LayoutInflater) myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             myView = myInflater.inflate(R.layout.list_element, null);   //my .xml file
             ViewHolder myViewHolder = new ViewHolder();
-            myViewHolder.name = (TextView) myView.findViewById(R.id.task_name1);    //ime zadatka
-            myViewHolder.time = (TextView) myView.findViewById(R.id.task_time1);    //vreme
-            myViewHolder.date = (TextView) myView.findViewById(R.id.task_date1);    //datum
-            myViewHolder.priority = (Button) myView.findViewById(R.id.button9);     //prioritet(crveno, zuto, zeleno)
-            myViewHolder.checked = (CheckBox) myView.findViewById(R.id.checkBox3);  //PRECTRAJ TEXT
-            myViewHolder.alarm = (ImageView) myView.findViewById(R.id.imageView2);  //SLIKA ALARMA KOJA TAKODJE TREBA DA STOJI U KONSTRUKTORU
+            myViewHolder.name = (TextView) myView.findViewById(R.id.task_name1);
+            myViewHolder.time = (TextView) myView.findViewById(R.id.task_time1);
+            myViewHolder.date = (TextView) myView.findViewById(R.id.task_date1);
+            myViewHolder.priority = (Button) myView.findViewById(R.id.button9);
+            myViewHolder.checked = (CheckBox) myView.findViewById(R.id.checkBox3);
+            myViewHolder.alarm = (ImageView) myView.findViewById(R.id.imageView2);
             myView.setTag(myViewHolder);
         }
 
@@ -145,11 +128,19 @@ public class MyAdapter extends BaseAdapter{
                 if(isChecked)
                 {
                     myViewHolder.name.setPaintFlags(myViewHolder.name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                    myListElementEntry.setMyTaskDone(1);    //zadatak izvrsen
+
+                    //za bazu
+                    //myListElementEntry = MainActivity.myTaskDataBase.readTask(String.valueOf(myPosition));
+                    myListElementEntry.setMyTaskReminder(true);
+                    MainActivity.myTaskDataBase.updateTask(myListElementEntry, String.valueOf(myPosition));
                 }
                 else
                 {
                     myViewHolder.name.setPaintFlags(myViewHolder.name.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+
+                    //myListElementEntry = MainActivity.myTaskDataBase.readTask(String.valueOf(myPosition));
+                    myListElementEntry.setMyTaskReminder(false);
+                    MainActivity.myTaskDataBase.updateTask(myListElementEntry, String.valueOf(myPosition));
                 }
             }
         });

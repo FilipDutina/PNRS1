@@ -13,31 +13,46 @@ import android.util.Log;
 
 public class MyDatabase extends SQLiteOpenHelper{
 
+    /*
+    *  public String imeZadatka;    //mTaskEntryName
+        public String vreme; //mTaskEntryTime
+        public String datum; //mTaskEntryDate
+        public String opisZadatka;  //mTaskEntryDescription
+        public int prioritet;    //mTaskEntryPriority
+        public int podsetnik;   //mTaskEntryAlarm
+        public int myTaskReminder;  //mTaskReminderSet
+        public int myTaskDone;  //mTaskDone
+        public int myTaskID;    //mTaskEntryID
+    *
+    * */
+
     public static int DATABASE_VERSION = 1;
 
-    public static final String DATABASE_NAME = "zadaci.db";
-    public static final String TABLE_NAME = "Zadaci";
-    public static final String COLUMN_NAME = "ZadatakIme";
-    public static final String COLUMN_DATE = "ZadatakDatum";
-    public static final String COLUMN_TIME = "ZadatakVreme";
-    public static final String COLUMN_DESCRIPTION = "ZadatakOpis";
-    public static final String COLUMN_REMINDER = "ZadatakPodsetnik";
-    public static final String COLUMN_PRIORITY = "ZadatakPrioritet";
-    public static final String COLUMN_DONE = "ZadatakUradjen";
-    public static final String COLUMN_ALARM = "ZadatakAlarm";
-    public static final String COLUMN_ID = "ZadatakID";
+    public static final String BAZA_IME = "zadaci.db";
+    public static final String TABELA_IME = "Zadaci";
+    public static final String ZADATAK_IME = "ZadatakIme";
+    public static final String ZADATAK_DATUM = "ZadatakDatum";
+    public static final String ZADATAK_VREME = "ZadatakVreme";
+    public static final String ZADATAK_OPIS = "ZadatakOpis";
+    public static final String ZADATAK_PODSETNIK = "ZadatakPodsetnik";
+    public static final String ZADATAK_PRIORITET = "ZadatakPrioritet";
+    public static final String ZADATAK_URADJEN = "ZadatakUradjen";
+    public static final String ZADATAK_SLIKA_ALARMA = "ZadatakAlarm";
+    public static final String ZADATAK_ID = "ZadatakID";
 
 
     public MyDatabase(Context context)
     {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, BAZA_IME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        Log.i("Pravim", "bazu");
-        db.execSQL("CREATE TABLE " + TABLE_NAME + " ("+COLUMN_ID+" INT, "+COLUMN_NAME+" TEXT, "+COLUMN_DATE+" TEXT, "+COLUMN_TIME+" TEXT, "+COLUMN_DESCRIPTION+" TEXT, "+COLUMN_REMINDER+" INT, "+COLUMN_ALARM+" INT, "+COLUMN_PRIORITY+" INT, "+COLUMN_DONE+" INT);");
+        Log.i("Baza", "pravim");
+
+        db.execSQL("CREATE TABLE" + TABELA_IME +" ("+ZADATAK_ID+" INT, "+ZADATAK_IME+" TEXT, "+ZADATAK_VREME+" TEXT, "+ZADATAK_DATUM+" TEXT, "+ZADATAK_OPIS+" TEXT, "+ZADATAK_PODSETNIK+" INT, "+ZADATAK_SLIKA_ALARMA+" INT, "+ZADATAK_PRIORITET+" INT, "+ZADATAK_URADJEN+" INT);");
+
         Log.i("Baza", "gotova");
     }
 
@@ -48,26 +63,29 @@ public class MyDatabase extends SQLiteOpenHelper{
 
     public void insert(ListElement myListElement)
     {
+        Log.i("Baza", "insert");
+        //id, ime, vreme, datum, opis, podsetnik(checkbox), prioritet(button), zadatak izvrsen
         SQLiteDatabase mySQLiteDatabase = getWritableDatabase();
         ContentValues myContentValues = new ContentValues();
-        myContentValues.put(COLUMN_ID, myListElement.getID());
-        myContentValues.put(COLUMN_NAME, myListElement.getImeZadatka());
-        myContentValues.put(COLUMN_DATE, myListElement.getDatum());
-        myContentValues.put(COLUMN_TIME, myListElement.getVreme());
-        myContentValues.put(COLUMN_DESCRIPTION, myListElement.getOpisZadatka());
-        myContentValues.put(COLUMN_REMINDER, myListElement.getMyTaskReminder());
-        myContentValues.put(COLUMN_PRIORITY, myListElement.getPrioritet());
-        myContentValues.put(COLUMN_ALARM, myListElement.getPodsetnik());
-        myContentValues.put(COLUMN_DONE, myListElement.getMyTaskDone());
+        myContentValues.put(ZADATAK_ID, myListElement.getID());
+        myContentValues.put(ZADATAK_IME, myListElement.getImeZadatka());
+        myContentValues.put(ZADATAK_DATUM, myListElement.getDatum());
+        myContentValues.put(ZADATAK_VREME, myListElement.getVreme());
+        myContentValues.put(ZADATAK_OPIS, myListElement.getOpisZadatka());
+        myContentValues.put(ZADATAK_PODSETNIK, myListElement.getMyTaskReminder());
+        myContentValues.put(ZADATAK_PRIORITET, myListElement.getPrioritet());
+        myContentValues.put(ZADATAK_SLIKA_ALARMA, myListElement.getPodsetnik());
+        myContentValues.put(ZADATAK_URADJEN, myListElement.getMyTaskDone());
 
-        mySQLiteDatabase.insert(TABLE_NAME, null, myContentValues);
+        mySQLiteDatabase.insert(TABELA_IME, null, myContentValues);
         mySQLiteDatabase.close();
     }
 
     public ListElement[] readTasks()
     {
+        Log.i("Baza", "readTasks");
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null, null);
+        Cursor cursor = db.query(TABELA_IME, null, null, null, null, null, null, null);
 
         if(cursor.getCount() <= 0)
         {
@@ -87,15 +105,44 @@ public class MyDatabase extends SQLiteOpenHelper{
 
     private ListElement createTask(Cursor cursor)
     {
-        String ime = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
-        String datum = cursor.getString(cursor.getColumnIndex(COLUMN_DATE));
-        String vreme = cursor.getString(cursor.getColumnIndex(COLUMN_TIME));
-        String opis = cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION));
-        String prioritet = cursor.getString(cursor.getColumnIndex(COLUMN_PRIORITY));
-        String alarm = cursor.getString(cursor.getColumnIndex(COLUMN_ALARM));
-        String podsetnik = cursor.getString(cursor.getColumnIndex(COLUMN_REMINDER));
+        Log.i("Baza", "createTask");
+        String ime = cursor.getString(cursor.getColumnIndex(ZADATAK_IME));
+        String datum = cursor.getString(cursor.getColumnIndex(ZADATAK_DATUM));
+        String vreme = cursor.getString(cursor.getColumnIndex(ZADATAK_VREME));
+        String opis = cursor.getString(cursor.getColumnIndex(ZADATAK_OPIS));
+        int prioritet = Integer.getInteger(cursor.getString(cursor.getColumnIndex(ZADATAK_PRIORITET)));
+        int podsetnik = Integer.getInteger(cursor.getString(cursor.getColumnIndex(ZADATAK_SLIKA_ALARMA)));
+        int myReminder = Integer.getInteger(cursor.getString(cursor.getColumnIndex(ZADATAK_PODSETNIK)));
 
-        return new ListElement(ime, Integer.getInteger(prioritet), vreme, datum, Integer.getInteger(podsetnik), Integer.getInteger(alarm), opis);
+        /*
+        *   public String imeZadatka;    //mTaskEntryName
+            public String vreme; //mTaskEntryTime
+            public String datum; //mTaskEntryDate
+            public String opisZadatka;  //mTaskEntryDescription
+            public int prioritet;    //mTaskEntryPriority
+            public int podsetnik;   //mTaskEntryAlarm
+            public int myTaskReminder;  //mTaskReminderSet
+            public int myTaskDone;  //mTaskDone
+            public int myTaskID;    //mTaskEntryID
+
+
+            public ListElement(String imeZadatka1, int prioritet1, String vreme1, String datum1, int podsetnik1, int myTaskReminder2, String opisZadatka1)
+            {
+                imeZadatka = imeZadatka1;   //ime zadatka
+                prioritet = prioritet1; //prioritet(crveno, zuto, zeleno)
+                vreme = vreme1; //vreme
+                datum = datum1; //datum
+                podsetnik = podsetnik1; //SLIKA ALARMA!!!!!
+                myTaskReminder = myTaskReminder2;
+                opisZadatka = opisZadatka1; //opis zadatka
+                myTaskDone = 0; //da li je zadatak izvrsen?
+                myTaskID = myRandom.nextInt(2147483647 - 0);    //random generator ID-ja zadatka
+            }
+                *
+                * */
+        Log.i("Baza", "createTaskGotov");
+
+        return new ListElement(ime, prioritet, vreme, datum, podsetnik, myReminder, opis);
     }
 
 }

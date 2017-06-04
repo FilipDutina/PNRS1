@@ -7,32 +7,33 @@ import java.util.Random;
  * Created by student on 11.4.2017.
  */
 
-public class ListElement implements Serializable{
+public class ListElement /*implements Serializable*/{
 
+    //random generator
     private Random myRandom = new Random();
 
-    public String imeZadatka;    //**
-    public String vreme; //**
-    public String datum; //**
-    public String opisZadatka;
-    public int prioritet;    //**
-    public int podsetnik;
-    public int myTaskReminder;   //dodato za proveru reminder-a
-    public int myTaskDone;
-    public int myTaskID;
+    public String imeZadatka;    //mTaskEntryName
+    public String vreme; //mTaskEntryTime
+    public String datum; //mTaskEntryDate
+    public String opisZadatka;  //mTaskEntryDescription
+    public int prioritet;    //mTaskEntryPriority
+    public int podsetnik;   //mTaskEntryAlarm
+    public int myTaskReminder;  //mTaskReminderSet
+    public int myTaskDone;  //mTaskDone
+    public int myTaskID;    //mTaskEntryID
 
 
-    public ListElement(String imeZadatka1, int prioritet1, String vreme1, String datum1 , int podsetnik1, int isSet, String opisZadatka1)
+    public ListElement(String imeZadatka1, int prioritet1, String vreme1, String datum1, int podsetnik1, int myTaskReminder2, String opisZadatka1)
     {
-        imeZadatka = imeZadatka1;
-        prioritet = prioritet1;
-        vreme = vreme1;
-        datum = datum1;
-        podsetnik = podsetnik1;
-        myTaskReminder = isSet;
-        opisZadatka = opisZadatka1;
-        myTaskDone = 0;
-        myTaskID = myRandom.nextInt(2147483647 - 0);
+        imeZadatka = imeZadatka1;   //ime zadatka
+        prioritet = prioritet1; //prioritet(crveno, zuto, zeleno)
+        vreme = vreme1; //vreme
+        datum = datum1; //datum
+        podsetnik = podsetnik1; //SLIKA ALARMA!!!!!
+        myTaskReminder = myTaskReminder2;
+        opisZadatka = opisZadatka1; //opis zadatka
+        myTaskDone = 0; //da li je zadatak izvrsen?
+        myTaskID = myRandom.nextInt(2147483647 - 0);    //random generator ID-ja zadatka
     }
 
     /*
