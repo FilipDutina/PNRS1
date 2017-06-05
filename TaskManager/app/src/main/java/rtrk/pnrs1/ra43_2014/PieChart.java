@@ -56,11 +56,17 @@ public class PieChart extends View{
 
     public void setPercentage()
     {
-        this.myPercentage++;
-        if(myPercentage == myPercentageTarget)
+        /*if(myPercentage == myPercentageTarget)
         {
             percentageSet = true;
+        }*/
+
+        if(this.myPercentage == myPercentageTarget || myPercentageTarget == 0)
+        {
+            this.myPercentage--;
         }
+
+        this.myPercentage++;
         invalidate();
     }
 

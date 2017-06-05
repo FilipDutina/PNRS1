@@ -34,9 +34,18 @@ public class Main3Activity extends AppCompatActivity {
         srednjiPrioritet = (PieChart) findViewById(R.id.srednjaPita);
         nizakPrioritet = (PieChart) findViewById(R.id.niskaPita);
 
-        visokPrioritet.setMyPercentageTarget(crveno);
-        srednjiPrioritet.setMyPercentageTarget(zuto);
-        nizakPrioritet.setMyPercentageTarget(zeleno);
+        if(crveno != 0)
+            visokPrioritet.setMyPercentageTarget(crveno);
+        else
+            visokPrioritet.setMyPercentageTarget(0);
+        if(zuto != 0)
+            srednjiPrioritet.setMyPercentageTarget(zuto);
+        else
+            srednjiPrioritet.setMyPercentageTarget(0);
+        if(zeleno != 0)
+            nizakPrioritet.setMyPercentageTarget(zeleno);
+        else
+            nizakPrioritet.setMyPercentageTarget(0);
 
         srednjiPrioritet.getPaint().setColor(getResources().getColor(R.color.yellowColor));
         nizakPrioritet.getPaint().setColor(getResources().getColor(R.color.greenColor));

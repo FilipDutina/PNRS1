@@ -130,17 +130,19 @@ public class MyAdapter extends BaseAdapter{
                     myViewHolder.name.setPaintFlags(myViewHolder.name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
                     //za bazu
-                    //myListElementEntry = MainActivity.myTaskDataBase.readTask(String.valueOf(myPosition));
-                    myListElementEntry.setMyTaskReminder(true);
-                    MainActivity.myTaskDataBase.updateTask(myListElementEntry, String.valueOf(myPosition));
+                    ListElement task = MainActivity.myTaskDataBase.readTask(String.valueOf(myPosition));
+                    task.setMyTaskReminder(true);
+                    MainActivity.myTaskDataBase.updateTask(task, String.valueOf(myPosition));
+                    myViewHolder.checked.setChecked(true);
                 }
                 else
                 {
                     myViewHolder.name.setPaintFlags(myViewHolder.name.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
 
-                    //myListElementEntry = MainActivity.myTaskDataBase.readTask(String.valueOf(myPosition));
-                    myListElementEntry.setMyTaskReminder(false);
-                    MainActivity.myTaskDataBase.updateTask(myListElementEntry, String.valueOf(myPosition));
+                    ListElement task = MainActivity.myTaskDataBase.readTask(String.valueOf(myPosition));
+                    task.setMyTaskReminder(false);
+                    MainActivity.myTaskDataBase.updateTask(task, String.valueOf(myPosition));
+                    //myViewHolder.checked.setChecked(false);
                 }
             }
         });
@@ -149,7 +151,7 @@ public class MyAdapter extends BaseAdapter{
         {
             myViewHolder.alarm.setColorFilter(Color.rgb(238, 238, 238));
         }
-
+        myViewHolder.checked.setChecked(myListElementEntry.myTaskReminder);
         return myView;
     }
 

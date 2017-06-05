@@ -6,6 +6,12 @@ package rtrk.pnrs1.ra43_2014;
 * Nedelja vece..........................
 * */
 
+/*
+*
+* MITZYYYYYYYYYYYYYYYYYYY <3
+*
+* */
+
 /*Dodajem za IV zadatak*/
 import android.content.ComponentName;
 import android.os.IBinder;
@@ -170,12 +176,14 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.i("RequestCode:", "poy " + String.valueOf(requestCode));
+        Log.i("resultCode:", "poy " + String.valueOf(resultCode));
         if(requestCode == ADD_TASK && resultCode == RESULT_OK)
         {
             if(data.getStringExtra(myButtonCode).equals(myLeftCode))
             {
                 //myAdapter.addTask(new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0), data.getExtras().getBoolean("checked")));
-                ListElement myListElement = new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0), data.getExtras().getBoolean("checked"), data.getStringExtra("opis"), data.getIntExtra("ID", 0));
+                ListElement myListElement = new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0), false, data.getStringExtra("opis"), myAdapter.getCount());
                 myTaskDataBase.insert(myListElement);
                 ListElement[] tasks = myTaskDataBase.readTasks();
                 myAdapter.update(tasks);
@@ -200,11 +208,11 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         {
             if(data.getStringExtra(myButtonCode).equals(myLeftCode))
             {
-                ListElement myListElement = new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0), data.getExtras().getBoolean("checked"), data.getStringExtra("opis"), data.getIntExtra("ID", 0));
-                myTaskDataBase.insert(myListElement);
+                ListElement myListElement = new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0), false, data.getStringExtra("opis"), myAdapter.getCount());
+                myTaskDataBase.updateTask(myListElement, String.valueOf(myPosition));
                 ListElement[] tasks = myTaskDataBase.readTasks();
                 myAdapter.update(tasks);
-                myAdapter.editTask(data.getIntExtra(myTaskPosition, 0), myListElement);
+                //myAdapter.editTask(data.getIntExtra(myTaskPosition, 0), myListElement);
                 try
                 {
                     myNotificationAidlInterface.notificationEdit();
@@ -224,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                 ListElement[] tasks = myTaskDataBase.readTasks();
                 myAdapter.update(tasks);
 
-                myAdapter.removeTask(data.getIntExtra(myTaskPosition, 0));
+                //myAdapter.removeTask(data.getIntExtra(myTaskPosition, 0));
                 try
                 {
                     myNotificationAidlInterface.notificationDelete();
@@ -286,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                     //Toast.LENGTH_LONG).show();
             return false;
         }
-        for(ListElement task : tasks)
+        /*for(ListElement task : tasks)
         {
             if(task.getPrioritet() == 2)//zeleni
                 yellowBr++;
@@ -301,11 +309,86 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
         if(redBr != 0)
             redBrChecked = (100 * redBr) / suma;
+        else
+        {
+            redBr = 0;
+            redBrChecked = 0;
+        }
         if(yellowBr != 0)
             yellowBrChecked = (100 * yellowBr) / suma;
+        else
+        {
+            yellowBr = 0;
+            yellowBrChecked = 0;
+        }
         if(greenBr != 0)
             greenBrChecked = (100 * greenBr) / suma;
+        else
+        {
+            greenBr = 0;
+            greenBrChecked = 0;
+        }
 
+        Log.i("CRVENO:", String.valueOf(redBrChecked));
+        Log.i("ZUTO:", String.valueOf(yellowBrChecked));
+        Log.i("ZELENO:", String.valueOf(greenBrChecked));
+
+        intent.putExtra("redPostotak", redBrChecked);
+        intent.putExtra("greenPostotak", greenBrChecked);
+        intent.putExtra("yellowPostotak", yellowBrChecked);
+
+        return true;*/
+
+        for (ListElement task : tasks) {
+            Log.d("mChecked","mChecked123 = " + task.getID());
+            /*if(task.getPrioritet() == 2)//zeleni
+                yellowBr++;
+            else if(task.getPrioritet() == 1)//crveni
+                greenBr++;
+            else//zuti
+                redBr++;*/
+            if (task.getPrioritet() == 3) {
+                redBr++;
+                if (task.getMyTaskReminder()) {
+                    redBrChecked++;
+                }
+            } else if (task.getPrioritet() == 2) {
+                yellowBr++;
+                if (task.getMyTaskReminder()) {
+                    yellowBrChecked++;
+                }
+            } else if (task.getPrioritet() == 1) {
+                greenBr++;
+                if (task.getMyTaskReminder()) {
+                    greenBrChecked++;
+                }
+            }
+        }
+
+        Log.i("CRVENOch:", String.valueOf(redBrChecked));
+        Log.i("ZUTOch:", String.valueOf(yellowBrChecked));
+        Log.i("ZELENOch:", String.valueOf(greenBrChecked));
+
+        if (redBr == 0) {
+            redBrChecked = 0;
+        } else
+            redBrChecked = redBrChecked * 100 / redBr;
+        if (greenBr == 0) {
+            greenBrChecked = 0;
+        } else
+            greenBrChecked = greenBrChecked * 100 / greenBr;
+        if (yellowBr == 0) {
+            yellowBrChecked = 0;
+        }else
+            yellowBrChecked = yellowBrChecked * 100 / yellowBr;
+
+        Log.i("CRVENO:", String.valueOf(redBrChecked));
+        Log.i("ZUTO:", String.valueOf(yellowBrChecked));
+        Log.i("ZELENO:", String.valueOf(greenBrChecked));
+
+        Log.i("CRVENO:", String.valueOf(redBr));
+        Log.i("ZUTO:", String.valueOf(yellowBr));
+        Log.i("ZELENO:", String.valueOf(greenBr));
 
         intent.putExtra("redPostotak", redBrChecked);
         intent.putExtra("greenPostotak", greenBrChecked);
