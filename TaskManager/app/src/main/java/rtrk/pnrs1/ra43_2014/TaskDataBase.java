@@ -57,7 +57,7 @@ public class TaskDataBase extends SQLiteOpenHelper{
     {
         SQLiteDatabase db = getWritableDatabase();
 
-        ContentValues values = new ContentValues();
+        ContentValues values = new ContentValues(); //This class is used to store a set of values that the ContentResolver can process.
         values.put(COLUMN_ID, task.getID());
         values.put(COLUMN_TASK_NAME, task.getImeZadatka());
         values.put(COLUMN_TASK_DESCRIPTION, task.getOpis());

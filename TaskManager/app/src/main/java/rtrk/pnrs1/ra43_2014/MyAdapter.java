@@ -133,7 +133,7 @@ public class MyAdapter extends BaseAdapter{
                     ListElement task = MainActivity.myTaskDataBase.readTask(String.valueOf(myPosition));
                     task.setMyTaskReminder(true);
                     MainActivity.myTaskDataBase.updateTask(task, String.valueOf(myPosition));
-                    myViewHolder.checked.setChecked(true);
+                    //myViewHolder.checked.setChecked(true);
                 }
                 else
                 {

@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     //values used for operations with list
     private int LIST_LONG_PRESS = 1;
     private int ADD_TASK_CLICK = 0;
-    private int myPosition;
+    public static int myPosition;
     public static int EDIT_TASK = 1;
     public static int ADD_TASK = 0;
 
@@ -133,16 +133,17 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                 intent.putExtra("levo", getText(R.string.sacuvaj));
                 intent.putExtra("desno", getText(R.string.obrisi));
 
-                //ListElement task = myTaskDataBase.readTask(String.valueOf(position));
-                /*intent.putExtra(DATUM, task.getDatum());
+                ListElement task = myTaskDataBase.readTask(String.valueOf(position));
+                intent.putExtra(DATUM, task.getDatum());
                 intent.putExtra(SAT, task.getVreme());
                 intent.putExtra(IME_ZADATKA, task.getImeZadatka());
                 intent.putExtra(OPIS_ZADATKA, task.getOpis());
                 intent.putExtra(BOJA, task.getPrioritet());
-                intent.putExtra(CHECKBOX_ALARM, task.getPodsetnik());*/
+                intent.putExtra(CHECKBOX_ALARM, task.getPodsetnik());
 
                 myPosition = position;
                 intent.putExtra(myTaskPosition, position);
+                intent.putExtra(FLAG_ZA_BTN_SACUVAJ, 1);
                 startActivityForResult(intent, EDIT_TASK);
 
                 return true;
@@ -200,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                 {
                     e.printStackTrace();
                 }
+                Log.i("DODAJ: ", String.valueOf(myListElement.getID()));
             }
             //myAdapter.addTask(new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0)));
             //myAdapter.notifyDataSetChanged();
@@ -208,11 +210,13 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         {
             if(data.getStringExtra(myButtonCode).equals(myLeftCode))
             {
-                ListElement myListElement = new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0), false, data.getStringExtra("opis"), myAdapter.getCount());
+                ListElement myListElement = new ListElement(data.getStringExtra("ime"), data.getIntExtra("prioritet", 0), data.getStringExtra("vreme"), data.getStringExtra("datum"), data.getIntExtra("alarmImage", 0), false, data.getStringExtra("opis"), myPosition);
                 myTaskDataBase.updateTask(myListElement, String.valueOf(myPosition));
+                myAdapter.editTask(data.getIntExtra(myTaskPosition, 0), myListElement);
+                Log.i("ADAPTER GET COUNT", String.valueOf(myAdapter.getCount()));
                 ListElement[] tasks = myTaskDataBase.readTasks();
                 myAdapter.update(tasks);
-                //myAdapter.editTask(data.getIntExtra(myTaskPosition, 0), myListElement);
+
                 try
                 {
                     myNotificationAidlInterface.notificationEdit();
@@ -221,6 +225,8 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                 {
                     e.printStackTrace();
                 }
+                Log.i("IZMENI: ", String.valueOf(myListElement.getID()));
+                Log.i("POZICIJA: ", String.valueOf(myPosition));
             }
             else if(data.getStringExtra(myButtonCode).equals(myRightCode))
             {
@@ -241,6 +247,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                 {
                     e.printStackTrace();
                 }
+                //Log.i("OBRISI: ", String.valueOf(myTaskDataBase.readTask(String.valueOf(myPosition)).getID()));
             }
             //myAdapter.removeTask(myPosition);
 

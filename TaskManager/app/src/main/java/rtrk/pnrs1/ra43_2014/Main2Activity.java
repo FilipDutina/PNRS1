@@ -359,9 +359,9 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
 
-       /* if(getIntent().getExtras().getInt(MainActivity.FLAG_ZA_BTN_SACUVAJ) == 1)
+        if(getIntent().getExtras().getInt(MainActivity.FLAG_ZA_BTN_SACUVAJ) == 1)
         {
-            ListElement task = MainActivity.myTaskDataBase.readTask(String.valueOf(MainActivity.myTaskPosition));
+            ListElement task = MainActivity.myTaskDataBase.readTask(String.valueOf(MainActivity.myPosition));
             datumString = task.getDatum();
             vremeString = task.getVreme();
             zadatakImeString = task.getImeZadatka();
@@ -369,22 +369,23 @@ public class Main2Activity extends AppCompatActivity {
 
 
             imeZadatka.setText(getIntent().getExtras().getString(MainActivity.IME_ZADATKA));
-            opisZadatka.setText(getIntent().getExtras().getString(MainActivity.OPIS_ZADATKA));*/
+            opisZadatka.setText(getIntent().getExtras().getString(MainActivity.OPIS_ZADATKA));
             //datumString.setText(getIntent().getExtras().getString(MainActivity.DATUM));
             //vremeString.setText(getIntent().getExtras().getString(MainActivity.SAT));
 
 
-            /*if (getIntent().getExtras().getInt(MainActivity.BOJA) == R.drawable.red)
+
+            if (getIntent().getExtras().getInt(MainActivity.BOJA) == 3)
                 crveno.performClick();
-            else if (getIntent().getExtras().getInt(MainActivity.BOJA) == R.drawable.green)
+            else if (getIntent().getExtras().getInt(MainActivity.BOJA) == 2)
                 zeleno.performClick();
             else
                 zuto.performClick();
 
 
-            if ((getIntent().getExtras().getInt(MainActivity.CHECKBOX_ALARM) == R.drawable.yellow_bell))
+            if ((getIntent().getExtras().getInt(MainActivity.CHECKBOX_ALARM) == 1))
                 boks.setChecked(true);
-        }*/
+        }
 
     }
 
