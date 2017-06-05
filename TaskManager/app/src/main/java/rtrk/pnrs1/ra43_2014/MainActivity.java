@@ -2,7 +2,7 @@ package rtrk.pnrs1.ra43_2014;
 
 /*
 * Filip Dutina ra43-2014
-* 4. V 2017.
+* 4. VI 2017.
 * Nedelja vece..........................
 * */
 
@@ -10,6 +10,13 @@ package rtrk.pnrs1.ra43_2014;
 *
 * hvala svima ljudima dobre volje mwaaaa
 5. 6. 2017.
+*
+* */
+
+/*
+*
+* mitZiZis mwa HWALA MITzIJU <3 <3 <3 <3
+* 5. VI 2017.
 *
 * */
 
@@ -302,59 +309,10 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                     //Toast.LENGTH_LONG).show();
             return false;
         }
-        /*for(ListElement task : tasks)
-        {
-            if(task.getPrioritet() == 2)//zeleni
-                yellowBr++;
-            else if(task.getPrioritet() == 1)//crveni
-                greenBr++;
-            else//zuti
-                redBr++;
-        }
-        suma = redBr + yellowBr + greenBr;
-        if(suma == 0)
-            return false;
-
-        if(redBr != 0)
-            redBrChecked = (100 * redBr) / suma;
-        else
-        {
-            redBr = 0;
-            redBrChecked = 0;
-        }
-        if(yellowBr != 0)
-            yellowBrChecked = (100 * yellowBr) / suma;
-        else
-        {
-            yellowBr = 0;
-            yellowBrChecked = 0;
-        }
-        if(greenBr != 0)
-            greenBrChecked = (100 * greenBr) / suma;
-        else
-        {
-            greenBr = 0;
-            greenBrChecked = 0;
-        }
-
-        Log.i("CRVENO:", String.valueOf(redBrChecked));
-        Log.i("ZUTO:", String.valueOf(yellowBrChecked));
-        Log.i("ZELENO:", String.valueOf(greenBrChecked));
-
-        intent.putExtra("redPostotak", redBrChecked);
-        intent.putExtra("greenPostotak", greenBrChecked);
-        intent.putExtra("yellowPostotak", yellowBrChecked);
-
-        return true;*/
 
         for (ListElement task : tasks) {
             Log.d("mChecked","mChecked123 = " + task.getID());
-            /*if(task.getPrioritet() == 2)//zeleni
-                yellowBr++;
-            else if(task.getPrioritet() == 1)//crveni
-                greenBr++;
-            else//zuti
-                redBr++;*/
+
             if (task.getPrioritet() == 3) {
                 redBr++;
                 if (task.getMyTaskReminder()) {
@@ -377,18 +335,11 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         Log.i("ZUTOch:", String.valueOf(yellowBrChecked));
         Log.i("ZELENOch:", String.valueOf(greenBrChecked));
 
-        if (redBr == 0) {
-            redBrChecked = 0;
-        } else
-            redBrChecked = redBrChecked * 100 / redBr;
-        if (greenBr == 0) {
-            greenBrChecked = 0;
-        } else
-            greenBrChecked = greenBrChecked * 100 / greenBr;
-        if (yellowBr == 0) {
-            yellowBrChecked = 0;
-        }else
-            yellowBrChecked = yellowBrChecked * 100 / yellowBr;
+        MyNative myNative = new MyNative();
+
+        redBrChecked = myNative.racun(redBr, redBrChecked);
+        yellowBrChecked = myNative.racun(yellowBr, yellowBrChecked);
+        greenBrChecked = myNative.racun(greenBr, greenBrChecked);
 
         Log.i("CRVENO:", String.valueOf(redBrChecked));
         Log.i("ZUTO:", String.valueOf(yellowBrChecked));
