@@ -8,7 +8,8 @@ package rtrk.pnrs1.ra43_2014;
 
 /*
 *
-* MITZYYYYYYYYYYYYYYYYYYY <3
+* hvala svima ljudima dobre volje mwa
+5. 6. 2017.
 *
 * */
 
